@@ -1,42 +1,30 @@
-# .github/workflows/deploy.yml
-name: Build and Deploy SAM App
+name: Deploy Lambda
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9'
+    - name: Install Dependencies & Package Lambda
+      run: |
+        mkdir package
+        pip install -r requirements.txt -t package/
+        cp lambda_function.py package/
+        cd package && zip -r ../lambda_function.zip .
 
-      - name: Set up AWS SAM CLI
-        uses: aws-actions/setup-sam@v1
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1
-
-      - name: Build SAM Application
-        run: sam build --use-container
-
-      - name: Deploy SAM Application
-        run: |
-          sam deploy \
-            --no-confirm-changeset \
-            --no-fail-on-empty-changeset \
-            --stack-name hospital-review-stack \
-            --s3-bucket myarmed \
-            --capabilities CAPABILITY_IAM \
-            --region ap-south-1
+    - name: Deploy to AWS Lambda
+      uses: appleboy/lambda-action@master
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: ap-south-1
+        function_name: arn:aws:lambda:ap-south-1:409763989440:function:hospital_review1
+        zip_file: lambda_function.zip

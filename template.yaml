@@ -1,47 +1,15 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Hospital Review Sentiment Analysis App
-
-Parameters:
-  GooglePlacesAPIKey:
-    Type: String
-    Description: Google Places API Key
-    NoEcho: true
+Description: Sample Lambda using SAM
 
 Resources:
-  HospitalReviewFunction:
+  MyLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: hospital-review-sentiment
+      FunctionName: my-lambda-function
       Handler: lambda_function.lambda_handler
       Runtime: python3.9
-      CodeUri: ./
-      Timeout: 30
-      MemorySize: 512
-      Environment:
-        Variables:
-          GOOGLE_PLACES_API_KEY: !Ref GooglePlacesAPIKey
-      Events:
-        ApiGateway:
-          Type: Api
-          Properties:
-            Path: /{proxy+}
-            Method: ANY
-        RootApi:
-          Type: Api
-          Properties:
-            Path: /
-            Method: ANY
-
-Outputs:
-  HospitalReviewAPI:
-    Description: "API Gateway endpoint URL"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
-    Export:
-      Name: HospitalReviewAPIEndpoint
-
-  HospitalReviewFunctionArn:
-    Description: "ARN of the Hospital Review Lambda Function"
-    Value: !GetAtt HospitalReviewFunction.Arn
-    Export:
-      Name: HospitalReviewFunctionArn
+      CodeUri: .
+      Timeout: 10
+      MemorySize: 128
+      Policies: AWSLambdaBasicExecutionRole
