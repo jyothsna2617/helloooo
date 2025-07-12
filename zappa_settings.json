@@ -5,6 +5,9 @@
         "profile_name": "default",
         "project_name": "hospital-sentiment",
         "runtime": "python3.9",
-        "s3_bucket": "your-s3-bucket-name"
+        "s3_bucket": "hospital-sentiment-zappa-deployments",
+        "environment_variables": {
+            "GOOGLE_PLACES_API_KEY": "your-actual-google-places-api-key"
+        }
     }
 }
