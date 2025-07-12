@@ -26,5 +26,5 @@ jobs:
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_region: ap-south-1
-        function_name: arn:aws:lambda:ap-south-1:409763989440:function:hospital_review1
+        function_name: hospital_review1
         zip_file: lambda_function.zip
