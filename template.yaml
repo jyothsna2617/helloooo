@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: SAM app for Lambda
+
+Resources:
+  HospitalReviewFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: hospital_review1
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      CodeUri: ./
+      Role: arn:aws:iam::409763989440:role/service-role/lappy
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /hospital
+            Method: GET
+
+Outputs:
+  HospitalReviewFunctionArn:
+    Description: "ARN of the Hospital Review Lambda Function"
+    Value: !GetAtt HospitalReviewFunction.Arn
+    Export:
+      Name: HospitalReviewFunctionArn
