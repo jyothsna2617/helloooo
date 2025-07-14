@@ -3,4 +3,4 @@ flask-cors
 requests
 textblob
 zappa
-awsgi
+awsgi==0.0.6
