@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'  # Match your Lambda runtime
+          python-version: '3.12'  # Match your Lambda runtime
 
       - name: Install Dependencies and Prepare Package
         run: |
