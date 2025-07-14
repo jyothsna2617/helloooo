@@ -5,12 +5,11 @@ import random
 import time
 from textblob import TextBlob
 import os
-from mangum import Mangum
 
 app = Flask(__name__)
 CORS(app)
 
-# Use environment variable for API key (more secure) for more secure
+# Use environment variable for API key (more secure)
 GOOGLE_PLACES_API_KEY = os.environ.get('GOOGLE_PLACES_API_KEY', 'YOUR_API_KEY_HERE')
 
 
@@ -323,28 +322,6 @@ def submit_review():
 def health_check():
     """Health check endpoint"""
     return jsonify({'status': 'healthy', 'message': 'Server is running'})
-
-handler = Mangum(app)
-
-def lambda_handler(event, context):
-    """
-    Main Lambda handler that wraps the Flask app.
-    """
-    try:
-        # Use awsgi to handle the WSGI interface
-        return handler(event, context)
-    except Exception as e:
-        return {
-            'statusCode': 500,
-            'body': json.dumps({
-                'error': 'Internal server error detected',
-                'message': str(e)
-            }),
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            }
-        }
 
 
 if __name__ == '__main__':
