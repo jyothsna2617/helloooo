@@ -7,7 +7,7 @@ from textblob import TextBlob
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=['*'])
 
 # Use environment variable for API key (more secure)
 GOOGLE_PLACES_API_KEY = os.environ.get('GOOGLE_PLACES_API_KEY', 'YOUR_API_KEY_HERE')
