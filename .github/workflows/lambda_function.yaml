@@ -12,9 +12,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
+      - name: Install Dependencies
+        run: |
+          mkdir -p package
+          pip install -r requirements.txt -t package/
+          cp lambda_function.py package/
+
       - name: Create Deployment Package
         run: |
-          zip -r code.zip . -x "*.git*" "*.github*" # Exclude unnecessary files
+          cd package
+          zip -r ../code.zip .
 
       - name: Deploy to AWS Lambda
         uses: imehedi/actions-awscli-v2@latest
