@@ -9,7 +9,7 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-# Use environment variable for API key (more secure)
+# Use environment variable for API key (more secure) for more secure
 GOOGLE_PLACES_API_KEY = os.environ.get('GOOGLE_PLACES_API_KEY', 'YOUR_API_KEY_HERE')
 
 
