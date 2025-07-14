@@ -10,7 +10,7 @@ def lambda_handler(event, context):
     """
     try:
         # Use awsgi to handle the WSGI interface
-        return awsgi.response(app, event, context)
+        return awsgi.handler(app, event, context)
     except Exception as e:
         return {
             'statusCode': 500,
