@@ -326,6 +326,27 @@ def health_check():
 
 handler = Mangum(app)
 
+def lambda_handler(event, context):
+    """
+    Main Lambda handler that wraps the Flask app.
+    """
+    try:
+        # Use awsgi to handle the WSGI interface
+        return handler(event, context)
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'body': json.dumps({
+                'error': 'Internal server error detected',
+                'message': str(e)
+            }),
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        }
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
 
