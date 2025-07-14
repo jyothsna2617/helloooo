@@ -9,18 +9,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Install zip tool
-        uses: montudor/action-zip@v1
-      - name: Create Zip file for Lambda function
-        run: zip -r code.zip .
-      - name: AWS CLI v2
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Create Deployment Package
+        run: |
+          zip -r code.zip . -x "*.git*" "*.github*" # Exclude unnecessary files
+
+      - name: Deploy to AWS Lambda
         uses: imehedi/actions-awscli-v2@latest
         with:
-          args: "lambda update-function-code \
-            --function-name arn:aws:lambda:ap-south-1:409763989440:function:mychatbot \
-            --zip-file fileb://code.zip"
+          args: >
+            lambda update-function-code
+            --function-name arn:aws:lambda:ap-south-1:409763989440:function:mychatbot
+            --zip-file fileb://code.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: "ap-south-1"
+          AWS_DEFAULT_REGION: ap-south-1
