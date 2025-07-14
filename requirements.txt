@@ -1,5 +1,6 @@
 flask
 flask-cors
+mangum
 requests
 textblob
 zappa

@@ -2,7 +2,9 @@ import json
 import os
 from app import app
 from flask import Flask
-import awsgi
+from mangum import Mangum
+
+handler = Mangum(app)
 
 def lambda_handler(event, context):
     """
@@ -10,7 +12,7 @@ def lambda_handler(event, context):
     """
     try:
         # Use awsgi to handle the WSGI interface
-        return awsgi(app, event, context)
+        return handler(event, context)
     except Exception as e:
         return {
             'statusCode': 500,
