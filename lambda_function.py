@@ -4,8 +4,13 @@ from app import app
 from flask import Flask
 from mangum import Mangum
 
+from asgiref.wsgi import WsgiToAsgi  # ✅ add this line
+
+# ✅ Wrap the Flask app using WsgiToAsgi
+asgi_app = WsgiToAsgi(app)
+
 # Create Mangum handler
-handler = Mangum(app, lifespan="off")
+handler = Mangum(asgi_app)
 
 def lambda_handler(event, context):
     """

@@ -5,3 +5,4 @@ requests
 textblob
 zappa
 awsgi
+asgiref
