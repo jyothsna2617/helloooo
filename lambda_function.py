@@ -5,7 +5,7 @@ from flask import Flask
 from mangum import Mangum
 
 # Create Mangum handler
-handler = Mangum(app, lifespan="off", enable_lifespan=False)
+handler = Mangum(app, lifespan="off")
 
 def lambda_handler(event, context):
     """
